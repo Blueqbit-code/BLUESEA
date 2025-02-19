@@ -24,9 +24,14 @@ const Register = () => {
       alert('Registration successful!');
       navigate('/login'); // Redirect to login page
     } catch (error) {
+      if (error.response?.data?.errors) {
+     // Display validation errors
+     setError(error.response.data.errors.map(err => err.msg).join(', '));
+    } else {
       setError(error.toString());
     }
-  };
+  }
+};
 
   return (
     <div>
