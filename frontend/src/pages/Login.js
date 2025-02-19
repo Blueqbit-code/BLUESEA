@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { loginUser } from '../api';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import API_BASE_URL from "../services/api";
+
+export const registerUser = async (userData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/auth/register`, userData);
+    return response.data;
+  } catch (error) {
+    console.error("Registration Error:", error.response?.data || error.message);
+    throw error;
+  }
+};
 
 const Login = () => {
   const [formData, setFormData] = useState({
