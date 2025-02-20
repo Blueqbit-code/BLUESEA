@@ -13,7 +13,9 @@ const Navbar = () => {
             style={styles.logo} 
           />
         </Link>
-        <h1 style={styles.title}>Portal</h1>
+        <h1 style={styles.title}>
+            <span style={styles.portalText}>Portal</span>
+        </h1>
       </div>
 
       {/* Navigation Links */}
@@ -44,7 +46,7 @@ const styles = {
     gap: '10px', // Space between logo and title
   },
   logo: {
-    height: '250px', // Adjust the height as needed
+    height: '225px', // Adjust the height as needed
     width: 'auto',  // Maintain aspect ratio
     transition: 'opacity 0.3s ease', // Smooth transition for hover
   },
