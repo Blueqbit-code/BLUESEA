@@ -1,31 +1,47 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+import axios from 'axios';
 
-// Shipper APIs
-export const createShipment = async (shipmentData) => {
-  const response = await fetch(`${API_BASE_URL}/shipments`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(shipmentData),
+const API_URL = process.env.REACT_APP_API_URL;
+
+// Register a user
+export const register = async (userData) => {
+  const response = await axios.post(`${API_URL}/api/auth/register`, userData);
+  return response.data;
+};
+
+// Login a user
+export const login = async (userData) => {
+  const response = await axios.post(`${API_URL}/api/auth/login`, userData);
+  return response.data;
+};
+
+// Create a shipment
+export const createShipment = async (shipmentData, token) => {
+  const response = await axios.post(`${API_URL}/api/shipments`, shipmentData, {
+    headers: { Authorization: `Bearer ${token}` },
   });
-  return response.json();
+  return response.data;
 };
 
-// Carrier APIs
-export const getOpenShipments = async () => {
-  const response = await fetch(`${API_BASE_URL}/carrier/shipments/open`);
-  return response.json();
-};
-
-export const submitBid = async (bidData) => {
-  const response = await fetch(`${API_BASE_URL}/bids`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(bidData),
+// Get all shipments
+export const getShipments = async (token) => {
+  const response = await axios.get(`${API_URL}/api/shipments`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
-  return response.json();
+  return response.data;
 };
 
-export const getCarrierBids = async (carrier_id) => {
-  const response = await fetch(`${API_BASE_URL}/carrier/bids/${carrier_id}`);
-  return response.json();
+// Submit a bid
+export const submitBid = async (bidData, token) => {
+  const response = await axios.post(`${API_URL}/api/bids`, bidData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+
+// Get all bids
+export const getBids = async (token) => {
+  const response = await axios.get(`${API_URL}/api/bids`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
 };
