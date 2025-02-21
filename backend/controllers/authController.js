@@ -44,4 +44,13 @@ exports.login = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+  const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
+
+// Sign a token
+const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+
+// Verify a token
+const decoded = jwt.verify(token, JWT_SECRET);
+
 };
