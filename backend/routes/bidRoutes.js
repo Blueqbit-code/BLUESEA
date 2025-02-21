@@ -1,13 +1,19 @@
 const express = require('express');
-const { submitBid, getBids } = require('../controllers/bidController');
+const {
+  createBid,
+  getAllBids,
+  getBidById,
+  updateBid,
+  deleteBid,
+} = require('../controllers/bidController'); // Ensure this path is correct
+
 const router = express.Router();
 
-// Submit a bid
-router.post('/', submitBid);
-
-// Get all bids
-router.get('/', getBids);
-
-router.put('/:bid_id/accept', bidController.acceptBid);
+// Bid routes
+router.post('/', createBid); // Line 6: Ensure createBid is defined
+router.get('/', getAllBids);
+router.get('/:id', getBidById);
+router.patch('/:id', updateBid);
+router.delete('/:id', deleteBid);
 
 module.exports = router;

@@ -1,8 +1,33 @@
-module.exports = (sequelize, DataTypes) => {
-    const Carrier = sequelize.define('Carrier', {
-      carrier_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-      company_name: { type: DataTypes.STRING, allowNull: false },
-      api_endpoint: { type: DataTypes.STRING, allowNull: false },
-    });
-    return Carrier;
-  };
+const mongoose = require('mongoose');
+
+const carrierSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  serviceAreas: {
+    type: [String], // List of countries or regions the carrier serves
+    required: true,
+  },
+  shippingRates: {
+    type: [
+      {
+        weightRange: { type: String, required: true }, // e.g., "0-5kg"
+        rate: { type: Number, required: true }, // e.g., 10.99
+      },
+    ],
+    required: true,
+  },
+  deliveryTime: {
+    type: String, // e.g., "3-5 business days"
+    required: true,
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const Carrier = mongoose.model('Carrier', carrierSchema);
+module.exports = Carrier;

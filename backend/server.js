@@ -1,14 +1,3 @@
-const app = require('./app');
-const connectDB = require('./config/db');
+const app = require('./app'); // Import the Express app
 
-const PORT = process.env.PORT || 5000;
-
-require('dotenv').config();
-
-// Connect to MongoDB Atlas
-connectDB();
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// No additional code is needed here since the app starts itself in app.js
