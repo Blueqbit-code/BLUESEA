@@ -1,19 +1,10 @@
-const { Shipment, Bid } = require('../models');
-
-// Create a shipment
-exports.createShipment = async (req, res) => {
-  try {
-    const shipment = await Shipment.create(req.body);
-    res.status(201).json(shipment);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Get all shipments
 exports.getAllShipments = async (req, res) => {
   try {
-    const shipments = await Shipment.findAll();
+    const { page = 1, limit = 10, status } = req.query;
+    const query = status ? { status } : {};
+    const shipments = await Shipment.find(query)
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
     res.status(200).json(shipments);
   } catch (error) {
     res.status(500).json({ error: error.message });
