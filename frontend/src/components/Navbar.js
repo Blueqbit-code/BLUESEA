@@ -1,25 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
     <nav>
+      <h1>BlueSea Platform</h1>
       <ul>
-        <li>
-          <Link to="/">Login</Link>
-        </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="/create-shipment">Create Shipment</Link>
-        </li>
-        <li>
-          <Link to="/logout">Logout</Link>
-        </li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/login">Login</a></li>
       </ul>
     </nav>
   );

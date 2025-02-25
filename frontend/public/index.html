@@ -1,11 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueQbit Portal</title>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlueQbit Platform</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px 0; /* Reduced top padding */
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-block-size: 100vh;
+    }
+
+    /* Title Image */
+    .title-image {
+      inline-size: 300px; /* Adjust the width as needed */
+      margin-block-end: 20px;
+    }
+
+    /* Container for Forms */
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      inline-size: 100%;
+      max-inline-size: 400px;
+      margin-block-end: 20px;
+    }
+
+    /* Form Styles */
+    form {
+      margin-block-end: 20px;
+    }
+
+    h2 {
+      margin-block-start: 0;
+      font-size: 1.2em; /* Smaller font size */
+      color: white;
+    }
+
+    input, select, button {
+      inline-size: 100%;
+      padding: 8px; /* Smaller padding */
+      margin-block-end: 8px; /* Smaller margin */
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9em; /* Smaller font size */
+    }
+
+    input, select {
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    /* Notifications Section */
+    .notifications {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px; /* Smaller padding */
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      inline-size: 100%;
+      max-inline-size: 400px;
+    }
+
+    .notification {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px; /* Smaller padding */
+      border-radius: 5px;
+      margin-block-end: 8px; /* Smaller margin */
+    }
+
+    .notification p {
+      margin: 0;
+      font-size: 0.8em; /* Smaller font size */
+    }
+
+    .notification small {
+      color: #ccc;
+      font-size: 0.7em; /* Smaller font size */
+    }
+  </style>
+</head>
+<body>
+  <!-- Title Image -->
+  <img src="title-image.png" alt="BlueQbit Platform" class="title-image" />
+
+  <!-- Container for Forms -->
+  <div class="container">
+    <!-- User Registration Form -->
+    <form id="registerForm">
+      <h2>Register User</h2>
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <select id="role" required>
+        <option value="shipper">Shipper</option>
+        <option value="carrier">Carrier</option>
+      </select>
+      <button type="submit">Register</button>
+    </form>
+
+    <!-- Create Shipment Form -->
+    <form id="createShipmentForm">
+      <h2>Create Shipment</h2>
+      <input type="text" id="shipperId" placeholder="Shipper ID" required />
+      <input type="text" id="origin" placeholder="Origin" required />
+      <input type="text" id="destination" placeholder="Destination" required />
+      <input type="number" id="weight" placeholder="Weight (kg)" required />
+      <button type="submit">Create Shipment</button>
+    </form>
+
+    <!-- Create Bid Form -->
+    <form id="createBidForm">
+      <h2>Create Bid</h2>
+      <input type="text" id="shipmentId" placeholder="Shipment ID" required />
+      <input type="text" id="carrierId" placeholder="Carrier ID" required />
+      <input type="number" id="amount" placeholder="Bid Amount" required />
+      <button type="submit">Create Bid</button>
+    </form>
+  </div>
+
+  <!-- Notifications Section -->
+  <div class="notifications" id="notifications">
+    <h2>Notifications</h2>
+    <!-- Notifications will be dynamically inserted here -->
+  </div>
+
+  <script>
+    const baseUrl = 'http://localhost:5000/api';
+
+    // Register User
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('role').value;
+
+      const response = await fetch(`${baseUrl}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password, role }),
+      });
+
+      const data = await response.json();
+      alert(data.message || 'User registered successfully!');
+    });
+
+    // Create Shipment
+    document.getElementById('createShipmentForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const shipperId = document.getElementById('shipperId').value;
+      const origin = document.getElementById('origin').value;
+      const destination = document.getElementById('destination').value;
+      const weight = document.getElementById('weight').value;
+
+      const response = await fetch(`${baseUrl}/shipments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ shipper: shipperId, origin, destination, weight }),
+      });
+
+      const data = await response.json();
+      alert(data.message || 'Shipment created successfully!');
+    });
+
+    // Create Bid
+    document.getElementById('createBidForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const shipmentId = document.getElementById('shipmentId').value;
+      const carrierId = document.getElementById('carrierId').value;
+      const amount = document.getElementById('amount').value;
+
+      const response = await fetch(`${baseUrl}/bids`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ shipment: shipmentId, carrier: carrierId, amount }),
+      });
+
+      const data = await response.json();
+      alert(data.message || 'Bid created successfully!');
+    });
+
+    // Fetch Notifications
+    async function fetchNotifications(userId) {
+      const response = await fetch(`${baseUrl}/notifications/${userId}`);
+      const notifications = await response.json();
+      const notificationsDiv = document.getElementById('notifications');
+
+      notificationsDiv.innerHTML = '<h2>Notifications</h2>';
+      notifications.forEach(notification => {
+        const notificationDiv = document.createElement('div');
+        notificationDiv.className = 'notification';
+        notificationDiv.innerHTML = `
+          <p>${notification.message}</p>
+          <small>${new Date(notification.createdAt).toLocaleString()}</small>
+        `;
+        notificationsDiv.appendChild(notificationDiv);
+      });
+    }
+
+    // Example: Fetch notifications for a specific user
+    fetchNotifications('65f4c8e1f1a2b3c4d5e6f7g8');
+  </script>
+</body>
 </html>

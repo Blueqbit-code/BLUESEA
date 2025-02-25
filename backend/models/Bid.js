@@ -24,6 +24,8 @@ const BidSchema = new mongoose.Schema({
     enum: ['pending', 'accepted', 'rejected'],
     default: 'pending',
   },
+  // Bid status
+  createdAt: { type: Date, default: Date.now }, // Timestamp
 });
 
 module.exports = mongoose.model('Bid', BidSchema);

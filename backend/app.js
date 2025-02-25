@@ -1,7 +1,7 @@
  // Load environment variables
 require('dotenv').config();
 
-console.log('DATABASE_URL:', process.env.DATABASE_URL); // Add this line
+console.log('DATABASE_URL:', process.env.DATABASE_URL);  
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -9,6 +9,9 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const shipmentRoutes = require('./routes/shipmentRoutes');
 const bidRoutes = require('./routes/bidRoutes');
+const matchRoutes = require('./routes/matchRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');  
 
 // Create Express app
 const app = express();
@@ -34,6 +37,10 @@ app.post('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/shipments', shipmentRoutes);
 app.use('/api/bids', bidRoutes);
+app.use('/api/match', matchRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/notifications', notificationRoutes);  
+
 
 // Database connection
 const connectDB = async () => {

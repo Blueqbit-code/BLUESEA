@@ -38,6 +38,7 @@ const shipmentSchema = new mongoose.Schema({
       message: '{VALUE} is not a valid status', // Custom error message
     },
     default: 'Pending', // Default status
+    createdAt: { type: Date, default: Date.now }, // Timestamp
   },
   carrier: {
     type: mongoose.Schema.Types.ObjectId,
@@ -52,7 +53,6 @@ const shipmentSchema = new mongoose.Schema({
     default: Date.now, // Automatically set on creation and update
   },
 });
-
 // Middleware to update the `updatedAt` field before saving
 shipmentSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
